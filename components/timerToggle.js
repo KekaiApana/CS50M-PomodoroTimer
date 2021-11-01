@@ -1,12 +1,16 @@
 import React from "react";
-import { Button } from "react-native"
+import { Button } from "react-native";
 import { styles } from "./styles";
+import PropTypes from "prop-types";
 
-class TimerToggle extends React.Component {
-    render() {
-
-    }
-
+const TimerToggle = props => {
+    const title = props.isRunning ? 'Pause' : 'Start'
+    return <Button title={title} onPress={props.onToggle} />
 }
 
-export default timerToggle
+TimerToggle.propTypes = {
+    onToggle: PropTypes.func.isRequired,
+    isRunning: PropTypes.bool.isRequired,
+}
+
+export default TimerToggle
