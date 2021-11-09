@@ -2,9 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 import { styles } from './components';
+import TimerToggle from './components/timerToggle';
 
-let ifPressedStart = 0
-let ifPressedStop = 0
 const DefaultWorkTime = 25
 const DefaultBreakTime = 5
 
@@ -43,20 +42,30 @@ export default class App extends React.Component {
         }
     }
 
-  render() {
-    return (
-        <View style={styles.container}>
-            <StatusBar style="auto" />
-            <Text style={[styles.title, styles.center]}>Hello, World!</Text>
-            <Text style={[styles.timeOnTimer, styles.center]}>00:00</Text>
-            <View style={styles.rows}>
-                {/* Buttons should go here*/}
-                <Button title="Start" onPress={this.printsOutputStart} />
-                <Button title="Stop" onPress={this.printsOutputStop} />
+    toggleTimer = () => {
+        if (!this.timer) return
+        if (this.timer.isRunning) {
+            this.timer.stop()
+        } else {
+            this.timer.start()
+        }
+        
+        this.setState({isRunning: this.timer.isRunning})
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <StatusBar style="auto" />
+                <Text style={[styles.title, styles.center]}>{/*TimerChangerHere.toUpperCase()*/} TIMER</Text>
+                <Text style={[styles.timeOnTimer, styles.center]}>00:00</Text>
+                <View style={styles.rows}>
+                    <TimerToggle onToggle={this.toggleTimer} isRunning={this.timer.isRunning} />
+                    <Button title="Reset" onPress={this.resetTimer} />
+                </View>
+                <Text>{this.state.startText}</Text>
+                <Text>{this.state.stopText}</Text>
             </View>
-            <Text>{this.state.startText}</Text>
-            <Text>{this.state.stopText}</Text>
-        </View>
-    );
-  }
+        );
+    }
 }
